@@ -1,0 +1,756 @@
+{
+  "info": {
+    "name": "HRMS Complete Admin API Collection",
+    "description": "Complete API collection for HRMS Admin/HR module including all 16 screens functionality",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{admin_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Admin Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@technorizen.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Admin Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedule Management",
+      "item": [
+        {
+          "name": "Get All Schedules",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/schedules",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduleName\": \"Team Meeting\",\n  \"details\": \"Weekly team sync meeting\",\n  \"date\": \"2024-01-15\",\n  \"time\": \"10:00 AM\",\n  \"type\": \"meeting\",\n  \"participants\": [\"EMP001\", \"EMP002\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/schedules",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Update Schedule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduleName\": \"Updated Team Meeting\",\n  \"time\": \"11:00 AM\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/schedules/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules", ":id"]
+            }
+          }
+        },
+        {
+          "name": "Delete Schedule",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/admin/schedules/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employee Management",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/employees?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"contactNumber\": \"+1234567890\",\n  \"jobTitle\": \"Software Engineer\",\n  \"location\": \"New York\",\n  \"joiningDate\": \"2024-01-15\",\n  \"status\": \"active\",\n  \"department\": \"Engineering\",\n  \"salary\": 75000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employees",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Update Employee Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"inactive\",\n  \"reason\": \"Resignation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employees/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees", ":id", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Management",
+      "item": [
+        {
+          "name": "Get All Job Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/jobs",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs"]
+            }
+          }
+        },
+        {
+          "name": "Create Job Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Senior UI/UX Designer\",\n  \"type\": \"full-time\",\n  \"location\": \"Remote\",\n  \"description\": \"We are looking for a talented UI/UX Designer...\",\n  \"aboutCompany\": \"Our company is a leading tech firm...\",\n  \"responsibilities\": [\"Design user interfaces\", \"Create wireframes\"],\n  \"requirements\": [\"3+ years experience\", \"Proficiency in Figma\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/jobs",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs"]
+            }
+          }
+        },
+        {
+          "name": "Share Job Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platforms\": [\"linkedin\", \"facebook\", \"twitter\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/jobs/:id/share",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs", ":id", "share"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applicant Tracking System",
+      "item": [
+        {
+          "name": "Get All Applicants",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/applicants?status=SOURCED",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "applicants"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SOURCED"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Applicant Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/applicants/stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "applicants", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Update Applicant Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"INTERVIEW\",\n  \"notes\": \"Moving to interview round\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/applicants/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "applicants", ":id", "status"]
+            }
+          }
+        },
+        {
+          "name": "Schedule Interview",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2024-01-20\",\n  \"time\": \"2:00 PM\",\n  \"type\": \"video\",\n  \"location\": \"Zoom Meeting\",\n  \"interviewers\": [\"interviewer_id\"],\n  \"notes\": \"Technical interview round\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/applicants/:id/interview",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "applicants", ":id", "interview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll Management",
+      "item": [
+        {
+          "name": "Get All Payrolls",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/payroll?month=1&year=2024",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "payroll"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "1"
+                },
+                {
+                  "key": "year",
+                  "value": "2024"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Payroll",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"month\": 1,\n  \"year\": 2024\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/payroll/generate",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "payroll", "generate"]
+            }
+          }
+        },
+        {
+          "name": "Make Payment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"Bank Transfer\",\n  \"accountNumber\": \"1234567890\",\n  \"transactionId\": \"TXN123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/payroll/:id/payment",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "payroll", ":id", "payment"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment Method",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/payroll/payment-method",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "payroll", "payment-method"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance Management",
+      "item": [
+        {
+          "name": "Get Attendance Log",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/attendance/log?date=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "attendance", "log"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-01-15"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Company-wide Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/attendance/company-stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "attendance", "company-stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Management Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/attendance/leave-stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "attendance", "leave-stats"]
+            }
+          }
+        },
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP001\",\n  \"date\": \"2024-01-15\",\n  \"checkIn\": \"09:00 AM\",\n  \"checkOut\": \"06:00 PM\",\n  \"status\": \"present\",\n  \"notes\": \"Regular working day\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/attendance/mark",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "attendance", "mark"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Performance Management",
+      "item": [
+        {
+          "name": "Get All Performance Records",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/performance",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "performance"]
+            }
+          }
+        },
+        {
+          "name": "Get Performance Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/performance/stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "performance", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Create Performance Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP001\",\n  \"goalName\": \"Complete Project Alpha\",\n  \"description\": \"Deliver the Alpha project on time\",\n  \"targetCompletion\": 100,\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-03-31\",\n  \"reviewPeriod\": \"Q1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/performance",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "performance"]
+            }
+          }
+        },
+        {
+          "name": "Update Performance Completion",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completion\": 75,\n  \"notes\": \"Good progress on the project\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/performance/:id/completion",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "performance", ":id", "completion"]
+            }
+          }
+        },
+        {
+          "name": "Conduct Performance Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"feedback\": \"Excellent performance this quarter\",\n  \"strengths\": [\"Technical skills\", \"Team collaboration\"],\n  \"improvements\": [\"Time management\", \"Communication\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/performance/:id/review",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "performance", ":id", "review"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leave Management",
+      "item": [
+        {
+          "name": "Get All Leave Requests",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/leave?status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "leave"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Calendar",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/leave/calendar?month=1&year=2024",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "leave", "calendar"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "1"
+                },
+                {
+                  "key": "year",
+                  "value": "2024"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Leave Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Leave approved for health issues\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/leave/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "leave", ":id", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Leave Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rejectionReason\": \"Insufficient leave balance\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/leave/:id/reject",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "leave", ":id", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Company Policies",
+      "item": [
+        {
+          "name": "Get All Policies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/policies",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "policies"]
+            }
+          }
+        },
+        {
+          "name": "Create Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Remote Work Policy",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Guidelines for remote work arrangements",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "HR",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "This policy outlines the guidelines for remote work...",
+                  "type": "text"
+                },
+                {
+                  "key": "attachments",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/policies",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "policies"]
+            }
+          }
+        },
+        {
+          "name": "Get Policy Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/policies/categories",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "policies", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Policy Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/policies/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "policies", "statistics"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

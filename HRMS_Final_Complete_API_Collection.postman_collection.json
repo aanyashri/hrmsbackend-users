@@ -1,0 +1,369 @@
+{
+  "info": {
+    "name": "HRMS Final Complete API Collection",
+    "description": "Complete API collection for HRMS system including all 40 screens (15 Employee + 25 Admin)",
+    "version": "2.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{admin_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "employee_token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Admin Settings Management",
+      "item": [
+        {
+          "name": "Get Admin Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/settings/profile",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "settings", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Admin Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Rose Potter",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "rosepotter45@gmail.com",
+                  "type": "text"
+                },
+                {
+                  "key": "jobTitle",
+                  "value": "UI/UX Designer",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "Design",
+                  "type": "text"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "5876984523",
+                  "type": "text"
+                },
+                {
+                  "key": "profilePicture",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/settings/profile",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "settings", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Change Admin Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"admin123\",\n  \"newPassword\": \"newpassword123\",\n  \"confirmPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/settings/password",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "settings", "password"]
+            }
+          }
+        },
+        {
+          "name": "Get Account Settings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/settings/account",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "settings", "account"]
+            }
+          }
+        },
+        {
+          "name": "Update Account Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailNotifications\": true,\n  \"smsNotifications\": false,\n  \"pushNotifications\": true,\n  \"twoFactorAuth\": false,\n  \"sessionTimeout\": 30,\n  \"language\": \"en\",\n  \"timezone\": \"UTC\",\n  \"theme\": \"light\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/settings/account",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "settings", "account"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Chat Management",
+      "item": [
+        {
+          "name": "Get Admin Chats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/chat?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "chat"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Chat Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/chat/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "chat", "statistics"]
+            }
+          }
+        },
+        {
+          "name": "Update Chat Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isMuted\": true,\n  \"mutedUntil\": \"2024-01-20T10:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/chat/:chatId/settings",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "chat", ":chatId", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Mark Chat as Unread",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/admin/chat/:chatId/unread",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "chat", ":chatId", "unread"]
+            }
+          }
+        },
+        {
+          "name": "Delete Chat",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmDelete\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/chat/:chatId",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "chat", ":chatId"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Notification Management",
+      "item": [
+        {
+          "name": "Get Admin Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/admin/notifications?category=recent&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "recent"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create System Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"System Maintenance Notice\",\n  \"message\": \"The system will be under maintenance from 2 AM to 4 AM tomorrow.\",\n  \"type\": \"system_announcement\",\n  \"priority\": \"high\",\n  \"actionUrl\": \"/maintenance\",\n  \"actionText\": \"View Details\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/system",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "system"]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/admin/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "notifications", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Policy Management",
+      "item": [
+        {
+          "name": "Upload Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Remote Work Policy",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Guidelines for remote work arrangements",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "HR",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "This policy outlines the guidelines for remote work...",
+                  "type": "text"
+                },
+                {
+                  "key": "attachments",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/policies",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "policies"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "info": {
+    "name": "HRMS Complete Final API Collection",
+    "description": "Complete API collection for HRMS Backend supporting all 15 Figma screens",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"kakashi@technorizen.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('auth_token', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Notifications (Screen 15)",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "isRead",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/:id/read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", ":id", "read"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "notification_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "notification_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Advanced Chat Features (Screen 13 & 14)",
+      "item": [
+        {
+          "name": "Get My Chats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/chat?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["chat"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Hey! What's up?\",\n  \"messageType\": \"text\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/chat/:chatId/messages",
+              "host": ["{{base_url}}"],
+              "path": ["chat", ":chatId", "messages"],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": "chat_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/chat/:chatId/messages/:messageId",
+              "host": ["{{base_url}}"],
+              "path": ["chat", ":chatId", "messages", ":messageId"],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": "chat_id_here"
+                },
+                {
+                  "key": "messageId",
+                  "value": "message_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Message as Unread",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/chat/:chatId/messages/:messageId/unread",
+              "host": ["{{base_url}}"],
+              "path": ["chat", ":chatId", "messages", ":messageId", "unread"],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": "chat_id_here"
+                },
+                {
+                  "key": "messageId",
+                  "value": "message_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Chat Settings (Mute/Block)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isMuted\": true,\n  \"isBlocked\": false,\n  \"mutedUntil\": \"2025-01-10T00:00:00.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/chat/:chatId/settings",
+              "host": ["{{base_url}}"],
+              "path": ["chat", ":chatId", "settings"],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": "chat_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Chat",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/chat/:chatId",
+              "host": ["{{base_url}}"],
+              "path": ["chat", ":chatId"],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": "chat_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complaint Management (Screen 9)",
+      "item": [
+        {
+          "name": "Submit Complaint",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"complaintType\": \"Salary Issue\",\n  \"subject\": \"Salary discrepancy in January\",\n  \"description\": \"There seems to be a discrepancy in my January salary calculation. The overtime hours were not properly calculated.\",\n  \"priority\": \"medium\",\n  \"isAnonymous\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/complaints",
+              "host": ["{{base_url}}"],
+              "path": ["complaints"]
+            }
+          }
+        },
+        {
+          "name": "Get My Complaints",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/complaints?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["complaints"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Video/Voice Calls (Screen 11 & 12)",
+      "item": [
+        {
+          "name": "Initiate Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participantEmployeeId\": \"EMP002\",\n  \"callType\": \"video\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/calls/initiate",
+              "host": ["{{base_url}}"],
+              "path": ["calls", "initiate"]
+            }
+          }
+        },
+        {
+          "name": "Get Call History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/calls/history?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["calls", "history"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leave Management",
+      "item": [
+        {
+          "name": "Apply Leave (Take Leave Modal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leaveType\": \"sick\",\n  \"startDate\": \"2025-01-15\",\n  \"endDate\": \"2025-01-15\",\n  \"reason\": \"Medical appointment\",\n  \"isHalfDay\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leave/apply",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "apply"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Calendar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leave/calendar?year=2000&month=1",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "calendar"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2000"
+                },
+                {
+                  "key": "month",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    }
+  ]
+}

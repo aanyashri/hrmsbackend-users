@@ -1,0 +1,472 @@
+{
+  "info": {
+    "name": "HRMS Admin API Collection",
+    "description": "Complete API collection for HRMS Admin/HR Panel supporting all 9 admin screens",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{admin_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Admin Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@technorizen.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('admin_token', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Admin Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard (Screen 2)",
+      "item": [
+        {
+          "name": "Get Dashboard Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedule Management (Screen 3)",
+      "item": [
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduleName\": \"Team Meeting\",\n  \"details\": \"Weekly team sync meeting to discuss project progress\",\n  \"date\": \"2025-01-10\",\n  \"time\": \"10:00\",\n  \"type\": \"meeting\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/schedules",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Get Schedules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/schedules?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "date",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Schedule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Team Meeting\",\n  \"time\": \"11:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/schedules/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "schedule_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Schedule",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/schedules/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "schedules", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "schedule_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employee Management (Screens 4 & 5)",
+      "item": [
+        {
+          "name": "Get Employees List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/employees?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "department",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "location",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "sortBy",
+                  "value": "joinDate",
+                  "disabled": true
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create New Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"contactNumber\": \"+1234567890\",\n  \"email\": \"john.doe@technorizen.com\",\n  \"jobTitle\": \"Software Developer\",\n  \"location\": \"Onsite\",\n  \"joiningDate\": \"2025-01-15\",\n  \"status\": \"Active\",\n  \"department\": \"Development\",\n  \"salary\": 35000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employees",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Update Employee Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Inactive\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employees/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employees", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "employee_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Management (Screens 6, 7, 8, 9)",
+      "item": [
+        {
+          "name": "Get Job Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/jobs?page=1&limit=9",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "9"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "location",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Job Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobTitle\": \"Senior React Developer\",\n  \"jobType\": \"Full Time\",\n  \"location\": \"Remote\",\n  \"description\": \"We are looking for a skilled React Developer to join our dynamic team.\",\n  \"aboutCompany\": \"TechnoRizen is a leading technology company focused on innovation and digital transformation.\",\n  \"whatYoullDo\": \"Develop and maintain React applications\\nCollaborate with cross-functional teams\\nWrite clean, maintainable code\\nParticipate in code reviews\",\n  \"requirements\": \"3+ years of React experience\\nStrong JavaScript skills\\nExperience with Redux or Context API\\nKnowledge of modern development tools\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/jobs",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs"]
+            }
+          }
+        },
+        {
+          "name": "Get Job Post Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/jobs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "job_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Job Post",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Job Title\",\n  \"description\": \"Updated job description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/jobs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "job_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Job Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/jobs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "job_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Share Job Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"linkedin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/jobs/:id/share",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "jobs", ":id", "share"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "job_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,749 @@
+{
+  "info": {
+    "name": "HRMS API Collection",
+    "description": "Complete API collection for HRMS Backend with Profile Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"kakashi@technorizen.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('auth_token', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP003\",\n  \"email\": \"test@technorizen.com\",\n  \"password\": \"password123\",\n  \"name\": \"Test User\",\n  \"role\": \"Developer\",\n  \"department\": \"IT\",\n  \"phone\": \"+1234567892\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile Management",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/profile",
+              "host": ["{{base_url}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kakashi Hatake Updated\",\n  \"phone\": \"+1234567890\",\n  \"dateOfBirth\": \"1990-05-15\",\n  \"address\": \"Updated Address, City, State\",\n  \"emergencyContact\": \"+1234567899\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile",
+              "host": ["{{base_url}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"password\",\n  \"newPassword\": \"newpassword123\",\n  \"confirmPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/password",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "password"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile Picture",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"profilePicture\": \"/uploads/profile/new-picture.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/picture",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "picture"]
+            }
+          }
+        },
+        {
+          "name": "Get Account Settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/profile/settings",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Update Account Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailNotifications\": true,\n  \"smsNotifications\": true,\n  \"twoFactorAuth\": false,\n  \"profileVisibility\": \"private\",\n  \"language\": \"en\",\n  \"timezone\": \"UTC\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/settings",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "settings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["employees"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "department",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": ["{{base_url}}"],
+              "path": ["employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP004\",\n  \"name\": \"New Employee\",\n  \"email\": \"newemployee@technorizen.com\",\n  \"role\": \"Developer\",\n  \"department\": \"IT\",\n  \"phone\": \"+1234567892\",\n  \"salary\": 25000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/employees",
+              "host": ["{{base_url}}"],
+              "path": ["employees"]
+            }
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Employee Name\",\n  \"role\": \"Senior Developer\",\n  \"salary\": 30000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": ["{{base_url}}"],
+              "path": ["employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": ["{{base_url}}"],
+              "path": ["employees", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Check In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/checkin",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "checkin"]
+            }
+          }
+        },
+        {
+          "name": "Check Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/checkout",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance Records",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/records?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "records"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "month",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "year",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/summary?month=1&year=2025",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "summary"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "1"
+                },
+                {
+                  "key": "year",
+                  "value": "2025"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leave Management",
+      "item": [
+        {
+          "name": "Apply Leave",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leaveType\": \"sick\",\n  \"startDate\": \"2025-01-15\",\n  \"endDate\": \"2025-01-17\",\n  \"reason\": \"Medical appointment and recovery\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leave/apply",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "apply"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leave/requests?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "requests"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Leave Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Updated reason for leave\",\n  \"endDate\": \"2025-01-18\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leave/requests/1",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "requests", "1"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Leave Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leave/requests/1",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "requests", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Balance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leave/balance",
+              "host": ["{{base_url}}"],
+              "path": ["leave", "balance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll",
+      "item": [
+        {
+          "name": "Get Payroll Records",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payroll/records?page=1&limit=12",
+              "host": ["{{base_url}}"],
+              "path": ["payroll", "records"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "12"
+                },
+                {
+                  "key": "year",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current Payroll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payroll/current",
+              "host": ["{{base_url}}"],
+              "path": ["payroll", "current"]
+            }
+          }
+        },
+        {
+          "name": "Get Payroll Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payroll/summary?year=2025",
+              "host": ["{{base_url}}"],
+              "path": ["payroll", "summary"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2025"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Payroll by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payroll/1",
+              "host": ["{{base_url}}"],
+              "path": ["payroll", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Policies",
+      "item": [
+        {
+          "name": "Get All Policies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/policies?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["policies"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Policy Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/policies/categories",
+              "host": ["{{base_url}}"],
+              "path": ["policies", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Policy by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/policies/1",
+              "host": ["{{base_url}}"],
+              "path": ["policies", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Holidays",
+      "item": [
+        {
+          "name": "Get All Holidays",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/holidays?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["holidays"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "year",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "month",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Upcoming Holidays",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/holidays/upcoming?limit=5",
+              "host": ["{{base_url}}"],
+              "path": ["holidays", "upcoming"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Holiday Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/holidays/types",
+              "host": ["{{base_url}}"],
+              "path": ["holidays", "types"]
+            }
+          }
+        },
+        {
+          "name": "Get Holiday by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/holidays/1",
+              "host": ["{{base_url}}"],
+              "path": ["holidays", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    }
+  ]
+}
